@@ -1,0 +1,75 @@
+- name: disable shard allocation
+  uri:
+    url: https://localhost:9200/_cluster/settings
+    method: PUT
+    user: "{{ elastic_user }}"
+    password: "{{ elastic_password }}"
+    force_basic_auth: yes
+    body: '{"persistent":{"cluster.routing.allocation.enable":"primaries"}}' # specify no shard allocation
+    body_format: json
+    ca_path: /etc/elasticsearch/certs/http_ca.crt
+
+- name: stop non essential indexing to speed up shard recovery - no problem if return error (can be ignored)
+  uri:
+    url: https://localhost:9200/_flush
+    method: POST
+    user: "{{ elastic_user }}"
+    password: "{{ elastic_password }}"
+    force_basic_auth: yes
+    ca_path: /etc/elasticsearch/certs/http_ca.crt
+  ignore_errors: yes
+
+- name: stop elasticsearch on node
+  systemd:
+    name: elasticsearch
+    state: stopped
+
+- name: install/upgrade elasticsearch {{ elastic_package }}
+  package:
+    name: "{{ elastic_package }}"
+    state: present
+
+- name: systemctl daemon-reload
+  systemd:
+    daemon_reload: yes
+
+- name: start elasticsearch on node
+  systemd:
+    name: elasticsearch
+    state: started
+
+- name: ensure elasticsearch is running
+  systemd: state=started name=elasticsearch
+
+- name: Make sure Elasticsearch is running before proceeding.
+  wait_for:
+    host: "localhost"
+    port: "9200"
+    delay: 3
+    timeout: 300
+
+- name: enable shard allocation
+  uri:
+    url: https://localhost:9200/_cluster/settings
+    method: PUT
+    user: "{{ elastic_user }}"
+    password: "{{ elastic_password }}"
+    force_basic_auth: yes
+    body: '{"persistent":{"cluster.routing.allocation.enable": null}}'
+    body_format: json
+    ca_path: /etc/elasticsearch/certs/http_ca.crt
+
+- name: Wait until cluster status is green {{ inventory_hostname }}
+  uri:
+    url: https://localhost:9200/_cat/health
+    method: GET
+    user: "{{ elastic_user }}"
+    password: "{{ elastic_password }}"
+    force_basic_auth: yes
+    return_content: yes
+    ca_path: /etc/elasticsearch/certs/http_ca.crt
+    # body_format: json
+  register: response
+  until:  "'green'  in response.content"
+  retries: 90 # 90 * 5 seconds
+  delay: 5 # Every 5 seconds
