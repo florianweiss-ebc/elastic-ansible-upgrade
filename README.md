@@ -7,6 +7,11 @@ Before starting to upgrade replace `my_user` with username used to connect to vi
 ansible -i inventory -m ping elasticsearch -u my_user
 ```
 
+## Check if cluster health is green
+```
+ansible-playbook -i inventory check_elastic_health.yml -u my_user
+```
+
 ## Upgrade specific single node
 ```
 ansible-playbook -i inventory upgrade_elastic_nodes.yml -u my_user --limit "elastic-01"

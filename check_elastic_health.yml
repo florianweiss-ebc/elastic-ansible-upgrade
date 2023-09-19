@@ -2,4 +2,4 @@
   serial: 1
   become: true
   roles:
-    - role: upgrade_elastic_nodes
+    - role: check_elastic_health
