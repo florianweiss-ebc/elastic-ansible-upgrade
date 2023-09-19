@@ -1,0 +1,4 @@
+- hosts: elasticsearch
+  serial: 1
+  roles:
+    - role: upgrade_elastic_nodes
