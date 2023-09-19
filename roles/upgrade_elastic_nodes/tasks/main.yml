@@ -24,9 +24,9 @@
     name: elasticsearch
     state: stopped
 
-- name: install/upgrade elasticsearch {{ elastic_package }}
+- name: install/upgrade elasticsearch {{ elastic_version }}
   package:
-    name: "{{ elastic_package }}"
+    name: "elasticsearch-{{ elastic_version }}"
     state: present
 
 - name: systemctl daemon-reload

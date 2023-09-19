@@ -1,23 +1,23 @@
 # Elasticsearch Ansible Upgrade
 
-Before starting to upgrade replace `my_user` with username used to connect to virtual machines. Furthermore, adapt the inventory file accordingly.  
+Before starting to upgrade replace `<USERNAME>` with username used to connect to virtual machines and `<ELASTIC_PASSWORD>` with the Elasticsearch password of the `elastic` user. Furthermore, adapt the inventory file accordingly.
 
-## Check nodes
+## Check if nodes are reachable
 ```
-ansible -i inventory -m ping elasticsearch -u my_user
+ansible -i inventory -m ping elasticsearch -u <USERNAME>
 ```
 
 ## Check if cluster health is green
 ```
-ansible-playbook -i inventory check_elastic_health.yml -u my_user
+ansible-playbook -i inventory check_elastic_health.yml -u <USERNAME> --extra-vars "elastic_password=<ELASTIC_PASSWORD>"
 ```
 
 ## Upgrade specific single node
 ```
-ansible-playbook -i inventory upgrade_elastic_nodes.yml -u my_user --limit "elastic-01"
+ansible-playbook -i inventory upgrade_elastic_nodes.yml -u <USERNAME> --limit "elastic-01" --extra-vars "elastic_password=<ELASTIC_PASSWORD>"
 ```
 
 ## Upgrade all nodes designed to run one by one and wait until health of cluster is green before process to other step
 ```
-ansible-playbook -i inventory upgrade_elastic_nodes.yml -u my_user
+ansible-playbook -i inventory upgrade_elastic_nodes.yml -u <USERNAME> --extra-vars "elastic_password=<ELASTIC_PASSWORD>"
 ```

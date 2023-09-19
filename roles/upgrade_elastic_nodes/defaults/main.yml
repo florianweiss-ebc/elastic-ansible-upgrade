@@ -1,4 +1,4 @@
 # version of Elastic search to upgrade to
-elastic_package: elasticsearch-8.10.1
+elastic_version: "8.10.1"
 elastic_user: elastic
 elastic_password: secretpassword
