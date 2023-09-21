@@ -1,12 +1,4 @@
-- name: Get cluster version
-  shell: curl -ks https://{{ elastic_node }}:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
-  register: current_elasticsearch_version
-
-- name: update elastic artifact registry
-  environment: 
-    STACK_VERSION: "{{ current_elasticsearch_version }}"
-    DOWNLOAD_BASE_DIR: /opt/elastic-packages
-    
+- name: update elastic artifact registry    
   shell: |
     set -o nounset -o errexit -o pipefail
 
