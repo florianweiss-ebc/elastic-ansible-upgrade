@@ -1,4 +1,5 @@
 - name: Get cluster version
+  hosts: localhost
   vars:
     elastic_user: elastic
     elastic_password: secretpassword
