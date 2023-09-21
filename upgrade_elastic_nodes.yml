@@ -1,10 +1,12 @@
-- hosts: elasticsearch
+- name: Get current and available elasticsearch version
+  hosts: elasticsearch
   run_once: true
   become: true
   include_role:
     name: get_elasticsearch_version
 
-- hosts: elasticsearch
+- name: Upgrade elasticsearch
+  hosts: elasticsearch
   serial: 1
   become: true
   include_role:
@@ -17,5 +19,6 @@
 - name: Upgrade and reboot
   hosts: elasticsearch
   serial: 1
+  become: true
   include_role:
     name: upgrade_and_reboot
