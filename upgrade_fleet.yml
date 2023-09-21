@@ -10,6 +10,6 @@
   roles:
     - role: upgrade_fleet_artifact_registry
       vars:
-        - current_elasticsearch_version: "{{ current_elasticsearch_version }}"
+        - elasticsearch_version: "{{ current_elasticsearch_version.stdout }}"
     - role: upgrade_and_reboot
     
