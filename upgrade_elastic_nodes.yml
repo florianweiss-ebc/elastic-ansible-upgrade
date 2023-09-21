@@ -2,15 +2,15 @@
   hosts: elasticsearch
   run_once: true
   become: true
-  include_role:
-    name: get_elasticsearch_version
+  roles:
+    - role: get_elasticsearch_version
 
 - name: Upgrade elasticsearch
   hosts: elasticsearch
   serial: 1
   become: true
-  include_role:
-    name: upgrade_elastic_nodes
+  roles:
+    - role: upgrade_elastic_nodes
   when:
     "'Available packages' in available_elasticsearch_packages.stdout"
   #vars:
@@ -20,5 +20,5 @@
   hosts: elasticsearch
   serial: 1
   become: true
-  include_role:
-    name: upgrade_and_reboot
+  roles:
+    - role: upgrade_and_reboot
