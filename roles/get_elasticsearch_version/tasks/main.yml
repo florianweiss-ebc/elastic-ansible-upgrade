@@ -3,5 +3,5 @@
   register: current_elasticsearch_version
 
 - name: Check available versions
-  shell: yum list available elasticsearch -q
+  shell: yum list available elasticsearch.x86_64 -q
   register: available_elasticsearch_packages
