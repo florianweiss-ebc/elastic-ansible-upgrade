@@ -1,0 +1,8 @@
+- name: Get cluster version
+  shell: curl -ks https://localhost:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
+  register: current_elasticsearch_version
+
+- name: Check available versions
+  shell: yum list available elasticsearch.x86_64 -q
+  register: available_elasticsearch_packages
+  ignore_errors: true

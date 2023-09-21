@@ -1,5 +1,7 @@
-- meta: end_play
-  when: "'Available packages' not in available_elasticsearch_packages.stdout"
+- name: Update all packages (please be patient)
+  yum:
+    name: '*'
+    state: latest
 
 - name: disable shard allocation
   uri:
@@ -27,20 +29,9 @@
     name: elasticsearch
     state: stopped
 
-- name: remove yum versionlock
-  shell: yum versionlock delete elasticsearch
-
-- name: upgrade elasticsearch to latest
-  package:
-    name: elasticsearch
-    state: latest
-
-- name: systemctl daemon-reload
-  systemd:
-    daemon_reload: yes
-
-- name: add yum versionlock
-  shell: yum versionlock elasticsearch
+- name: reboot host
+  reboot:
+    reboot_timeout: 300
 
 - name: start elasticsearch on node
   systemd:
