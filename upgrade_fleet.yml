@@ -1,0 +1,11 @@
+- name: Upgrade fleet and artifact registry
+  hosts: fleet
+  become: true
+  roles:
+    - role: upgrade_fleet_artifact_registry
+
+- name: Upgrade and reboot
+  hosts: fleet
+  become: true
+  roles:
+    - role: upgrade_and_reboot

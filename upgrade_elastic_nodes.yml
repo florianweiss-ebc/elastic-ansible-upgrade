@@ -17,4 +17,4 @@
   serial: 1
   become: true
   roles:
-    - role: upgrade_and_reboot
+    - role: upgrade_and_reboot_elasticsearch
