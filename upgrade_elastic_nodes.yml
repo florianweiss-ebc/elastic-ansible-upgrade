@@ -1,5 +1,21 @@
 - hosts: elasticsearch
+  run_once: true
+  become: true
+  include_role:
+    name: get_elasticsearch_version
+
+- hosts: elasticsearch
   serial: 1
   become: true
-  roles:
-    - role: upgrade_elastic_nodes
+  include_role:
+    name: upgrade_elastic_nodes
+  when:
+    "'Available packages' in available_elasticsearch_packages.stdout"
+  #vars:
+  #  current_elasticsearch_version: "{{ current_elasticsearch_version.stdout }}"
+
+- name: Upgrade and reboot
+  hosts: elasticsearch
+  serial: 1
+  include_role:
+    name: upgrade_and_reboot

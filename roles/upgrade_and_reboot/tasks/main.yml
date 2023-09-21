@@ -1,3 +1,8 @@
+- name: Update all packages (please be patient)
+  yum:
+    name: '*'
+    state: latest
+
 - name: disable shard allocation
   uri:
     url: https://localhost:9200/_cluster/settings
@@ -24,14 +29,9 @@
     name: elasticsearch
     state: stopped
 
-- name: upgrade elasticsearch to latest
-  package:
-    name: elasticsearch
-    state: latest
-
-- name: systemctl daemon-reload
-  systemd:
-    daemon_reload: yes
+- name: reboot host
+  reboot:
+    reboot_timeout: 300
 
 - name: start elasticsearch on node
   systemd:
