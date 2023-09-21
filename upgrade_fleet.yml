@@ -4,12 +4,12 @@
     elastic_user: elastic
     elastic_password: secretpassword
     elastic_node: 10.0.0.10
-  pre_tasks:
-    - shell: curl -s https://{{ elastic_node }}:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
-      register: current_elasticsearch_version
+  #pre_tasks:
+  #  - shell: curl -s https://{{ elastic_node }}:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
+  #    register: current_elasticsearch_version
   roles:
     - role: upgrade_fleet_artifact_registry
-      vars:
-        - elasticsearch_version: "{{ current_elasticsearch_version.stdout }}"
+      #vars:
+      #  - elasticsearch_version: "{{ current_elasticsearch_version.stdout }}"
     - role: upgrade_and_reboot
     
