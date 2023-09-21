@@ -4,12 +4,6 @@
   become: true
   roles:
     - role: upgrade_elastic_tool
-  vars:
-    elastic_component: kibana
-
-- name: Upgrade and reboot
-  hosts: kibana
-  serial: 1
-  become: true
-  roles:
+      vars:
+        elastic_component: kibana
     - role: upgrade_and_reboot

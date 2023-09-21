@@ -4,12 +4,6 @@
   become: true
   roles:
     - role: upgrade_elastic_tool
-  vars:
-    elastic_component: logstash
-
-- name: Upgrade and reboot
-  hosts: logstash
-  serial: 1
-  become: true
-  roles:
+      vars:
+        elastic_component: logstash
     - role: upgrade_and_reboot

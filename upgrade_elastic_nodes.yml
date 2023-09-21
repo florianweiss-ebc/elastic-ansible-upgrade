@@ -1,20 +1,9 @@
 - name: Get current and available elasticsearch version
   hosts: elasticsearch
-  run_once: true
   become: true
+  serial: 1
   roles:
     - role: get_elasticsearch_version
-
-- name: Upgrade elasticsearch
-  hosts: elasticsearch
-  serial: 1
-  become: true
-  roles:
+      run_once: true
     - role: upgrade_elastic_nodes
-
-- name: Upgrade and reboot
-  hosts: elasticsearch
-  serial: 1
-  become: true
-  roles:
     - role: upgrade_and_reboot_elasticsearch
