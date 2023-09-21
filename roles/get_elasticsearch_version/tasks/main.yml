@@ -5,3 +5,4 @@
 - name: Check available versions
   shell: yum list available elasticsearch.x86_64 -q
   register: available_elasticsearch_packages
+  ignore_errors: true
