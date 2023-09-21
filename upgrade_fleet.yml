@@ -1,10 +1,7 @@
+# ToDo: fix variables
 - name: Upgrade fleet
   hosts: fleet
   become: true
-  vars:
-    elastic_user: elastic
-    elastic_password: secretpassword
-    elastic_node: 10.0.0.10
   #pre_tasks:
   #  - shell: curl -s https://{{ elastic_node }}:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
   #    register: current_elasticsearch_version
