@@ -27,6 +27,9 @@
     name: elasticsearch
     state: stopped
 
+- name: remove yum versionlock
+  shell: yum versionlock delete elasticsearch
+
 - name: upgrade elasticsearch to latest
   package:
     name: elasticsearch
@@ -35,6 +38,9 @@
 - name: systemctl daemon-reload
   systemd:
     daemon_reload: yes
+
+- name: add yum versionlock
+  shell: yum versionlock elasticsearch
 
 - name: start elasticsearch on node
   systemd:
