@@ -1,0 +1,8 @@
+- name: Upgrade elasticsearch
+  hosts: elasticsearch
+  become: true
+  serial: 1
+  roles:
+    - role: get_elasticsearch_version
+      run_once: true
+    - role: upgrade_elastic_nodes
