@@ -4,13 +4,13 @@
     elastic_user: elastic
     elastic_password: secretpassword
     elastic_node: 10.0.0.10
+  environment:
+    STACK_VERSION: 8.10.2
+    DOWNLOAD_BASE_DIR: /opt/elastic-packages
   pre_tasks:
     - shell: curl -s https://{{ elastic_node }}:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
       register: current_elasticsearch_version
   roles:
     - role: upgrade_fleet_artifact_registry
-      environment:
-        STACK_VERSION: 8.10.2
-        DOWNLOAD_BASE_DIR: /opt/elastic-packages
     - role: upgrade_and_reboot
     
