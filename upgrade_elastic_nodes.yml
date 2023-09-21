@@ -11,8 +11,6 @@
   become: true
   roles:
     - role: upgrade_elastic_nodes
-  when:
-    "'Available packages' in available_elasticsearch_packages.stdout"
   #vars:
   #  current_elasticsearch_version: "{{ current_elasticsearch_version.stdout }}"
 
