@@ -1,4 +1,13 @@
 [elasticsearch]
-elastic-01    ansible_host=10.0.0.10    ansible_ssh_private_key_file=/path/to/key.pem
-elastic-02    ansible_host=10.0.0.20    ansible_ssh_private_key_file=/path/to/key.pem
-elastic-03    ansible_host=10.0.0.30    ansible_ssh_private_key_file=/path/to/key.pem
+elastic-01     ansible_host=10.0.0.10     ansible_ssh_private_key_file=/path/to/key.pem
+elastic-02     ansible_host=10.0.0.20     ansible_ssh_private_key_file=/path/to/key.pem
+elastic-03     ansible_host=10.0.0.30     ansible_ssh_private_key_file=/path/to/key.pem
+
+[kibana]
+kibana-01      ansible_host=10.0.0.100    ansible_ssh_private_key_file=/path/to/key.pem
+
+[logstash]
+logstash-01    ansible_host=10.0.0.110    ansible_ssh_private_key_file=/path/to/key.pem
+
+[fleet]
+fleet-01       ansible_host=10.0.0.120    ansible_ssh_private_key_file=/path/to/key.pem
