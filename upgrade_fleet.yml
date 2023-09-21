@@ -10,7 +10,7 @@
   roles:
     - role: upgrade_fleet_artifact_registry
       environment:
-        STACK_VERSION: "{{ current_elasticsearch_version.stdout }}"
+        STACK_VERSION: 8.10.2
         DOWNLOAD_BASE_DIR: /opt/elastic-packages
     - role: upgrade_and_reboot
     
