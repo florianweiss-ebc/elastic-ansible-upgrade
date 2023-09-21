@@ -1,0 +1,30 @@
+- meta: end_play
+  when: "'Available packages' in available_elasticsearch_packages.stdout"
+
+- name: stop {{ elastic_component }} on node
+  systemd:
+    name: "{{ elastic_component }}"
+    state: stopped
+
+- name: remove yum versionlock
+  shell: yum versionlock delete {{ elastic_component }}
+
+- name: upgrade {{ elastic_component }} to latest
+  package:
+    name: "{{ elastic_component }}"
+    state: latest
+
+- name: systemctl daemon-reload
+  systemd:
+    daemon_reload: yes
+
+- name: add yum versionlock
+  shell: yum versionlock {{ elastic_component }}
+
+- name: start {{ elastic_component }} on node
+  systemd:
+    name: "{{ elastic_component }}"
+    state: started
+
+- name: ensure {{ elastic_component }} is running
+  systemd: state=started name={{ elastic_component }}

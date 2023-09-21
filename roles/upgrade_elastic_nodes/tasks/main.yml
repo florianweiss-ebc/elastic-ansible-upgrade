@@ -1,5 +1,5 @@
 - meta: end_play
-  when: "'Available packages' in available_elasticsearch_packages.stdout"
+  when: "'Available packages' not in available_elasticsearch_packages.stdout"
 
 - name: disable shard allocation
   uri:

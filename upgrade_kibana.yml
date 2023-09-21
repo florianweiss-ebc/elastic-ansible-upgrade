@@ -1,0 +1,8 @@
+- name: Upgrade kibana
+  hosts: kibana
+  serial: 1
+  become: true
+  roles:
+    - role: upgrade_elastic_tool
+  vars:
+    elastic_component: kibana
