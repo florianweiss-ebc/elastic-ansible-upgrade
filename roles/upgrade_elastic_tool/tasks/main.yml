@@ -1,6 +1,3 @@
-- meta: end_play
-  when: "'Available packages' in available_elasticsearch_packages.stdout"
-
 - name: stop {{ elastic_component }} on node
   systemd:
     name: "{{ elastic_component }}"

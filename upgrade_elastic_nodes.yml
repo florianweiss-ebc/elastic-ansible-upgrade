@@ -11,8 +11,6 @@
   become: true
   roles:
     - role: upgrade_elastic_nodes
-  #vars:
-  #  current_elasticsearch_version: "{{ current_elasticsearch_version.stdout }}"
 
 - name: Upgrade and reboot
   hosts: elasticsearch
