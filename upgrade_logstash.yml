@@ -1,0 +1,8 @@
+- name: Upgrade logstash
+  hosts: logstash
+  serial: 1
+  become: true
+  roles:
+    - role: upgrade_elastic_tool
+  vars:
+    elastic_component: logstash
