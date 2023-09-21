@@ -1,14 +1,14 @@
 - name: Get cluster version
-  shell: curl -ks https://{{ elastic_node }}:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
-  register: current_elasticsearch_version
   vars:
     elastic_user: elastic
     elastic_password: secretpassword
     elastic_node: 10.0.10.12
-
-- name: Print current elastic version
-  ansible.builtin.debug:
-    msg: "{{ current_elasticsearch_version }}"
+  tasks:
+    - shell: curl -ks https://{{ elastic_node }}:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
+      register: current_elasticsearch_version
+    - name: Print current elastic version
+      ansible.builtin.debug:
+        msg: "{{ current_elasticsearch_version }}"
 
 - name: Upgrade fleet and artifact registry
   hosts: fleet
