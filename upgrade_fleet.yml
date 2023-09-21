@@ -1,5 +1,5 @@
 - name: Get cluster version
-  hosts: localhost
+  hosts: fleet
   vars:
     elastic_user: elastic
     elastic_password: secretpassword
@@ -15,7 +15,7 @@
   hosts: fleet
   become: true
   environment:
-    STACK_VERSION: "{{ current_elasticsearch_version }}"
+    STACK_VERSION: "{{ current_elasticsearch_version.stdout }}"
     DOWNLOAD_BASE_DIR: /opt/elastic-packages
   roles:
     - role: upgrade_fleet_artifact_registry
