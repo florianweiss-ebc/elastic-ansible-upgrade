@@ -1,5 +1,6 @@
 - name: Upgrade fleet
   hosts: fleet
+  become: true
   vars:
     elastic_user: elastic
     elastic_password: secretpassword
