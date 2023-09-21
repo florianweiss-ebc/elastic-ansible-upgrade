@@ -1,8 +1,8 @@
 - name: update elastic artifact registry    
   shell: |
-    export STACK_VERSION={{ current_elasticsearch_version }}
+    export STACK_VERSION=8.10.2
     export DOWNLOAD_BASE_DIR=/opt/elastic-packages
-    
+
     set -o nounset -o errexit -o pipefail
 
     STACK_VERSION=${STACK_VERSION:?"Make sure to set STACK_VERSION when running this script"}
