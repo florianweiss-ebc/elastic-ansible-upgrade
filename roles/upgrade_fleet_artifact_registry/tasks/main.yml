@@ -1,14 +1,14 @@
 - name: update elastic artifact registry    
   shell: |
-    export STACK_VERSION=8.10.2
-    export DOWNLOAD_BASE_DIR=/opt/elastic-packages
+    STACK_VERSION={{ current_elasticsearch_version }}
+    DOWNLOAD_BASE_DIR=/opt/elastic-packages
 
     set -o nounset -o errexit -o pipefail
 
-    STACK_VERSION=${STACK_VERSION:?"Make sure to set STACK_VERSION when running this script"}
+    #STACK_VERSION=${STACK_VERSION:?"Make sure to set STACK_VERSION when running this script"}
     ARTIFACT_DOWNLOADS_BASE_URL=https://artifacts.elastic.co/downloads
 
-    DOWNLOAD_BASE_DIR=${DOWNLOAD_BASE_DIR:?"Make sure to set DOWNLOAD_BASE_DIR when running this script"}
+    #DOWNLOAD_BASE_DIR=${DOWNLOAD_BASE_DIR:?"Make sure to set DOWNLOAD_BASE_DIR when running this script"}
 
     COMMON_PACKAGE_PREFIXES="apm-server/apm-server beats/auditbeat/auditbeat beats/elastic-agent/elastic-agent beats/filebeat/filebeat beats/heartbeat/heartbeat beats/metricbeat/metricbeat beats/osquerybeat/osquerybeat beats/packetbeat/packetbeat cloudbeat/cloudbeat endpoint-dev/endpoint-security fleet-server/fleet-server"
 
