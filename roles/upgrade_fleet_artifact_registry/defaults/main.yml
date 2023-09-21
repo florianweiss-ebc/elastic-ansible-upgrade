@@ -1,0 +1,3 @@
+elastic_user: elastic
+elastic_password: secretpassword
+elastic_node: 10.0.10.12
