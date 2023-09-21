@@ -21,3 +21,8 @@ ansible-playbook -i inventory upgrade_elastic_nodes.yml -u <USERNAME> --limit "e
 ```
 ansible-playbook -i inventory upgrade_elastic_nodes.yml -u <USERNAME> --extra-vars "elastic_password=<ELASTIC_PASSWORD>"
 ```
+
+# TODOs
+- refactor variables to use elastic version from cluster
+- refactor fleet upgrade script to ansible native
+- refactor versionlocks and curls to native ansible
