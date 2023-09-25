@@ -26,12 +26,6 @@
     - role: get_elasticsearch_version
       vars:
         elastic_hostname: "{{ elastic_node }}"
-    - role: download_fleet_packages
-      with_items:
-        - { os: "linux", package_type: "tar.gz" }
-        - { os: "windows", package_type: "zip" }
-      vars:
-        STACK_VERSION: "{{ current_elasticsearch_version }}"
     - role: upgrade_fleet_artifact_registry
       vars:
         STACK_VERSION: "{{ current_elasticsearch_version }}"

@@ -1,37 +1,13 @@
-- name: Download RPM Packages
-  vars:
-    PKG_URL_SUFFIX: "{{ STACK_VERSION }}-x86_64.rpm"
-    package_prefixes: "{{ RPM_PACKAGES }}"
-  block:
-    - name: Create Download Directory
-      ansible.builtin.file:
-        path: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}"
-        state: directory
-      loop: "{{ package_prefixes | map('dirname') | unique }}"
+- name: Download Packages
+  include_tasks: download_packages.yml
+  with_items:
+    - { os: "linux", package_type: "tar.gz" }
+    - { os: "windows", package_type: "zip" }
 
-    - name: Download RPM Packages
-      ansible.builtin.uri:
-        url: "{{ ARTIFACT_DOWNLOADS_BASE_URL }}/{{ item }}-{{ PKG_URL_SUFFIX }}"
-        dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}/{{ PKG_URL_SUFFIX }}"
-        method: GET
-        status_code: 200
-      loop: "{{ package_prefixes }}"
+- name: Download RPM Packages (Linux Only)
+  include_tasks: download_rpm_packages.yml
+  when: "'linux' in ansible_play_hosts"
 
-- name: Download DEB Packages
-  vars:
-    PKG_URL_SUFFIX: "{{ STACK_VERSION }}-amd64.deb"
-    package_prefixes: "{{ DEB_PACKAGES }}"
-  block:
-    - name: Create Download Directory
-      ansible.builtin.file:
-        path: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}"
-        state: directory
-      loop: "{{ package_prefixes | map('dirname') | unique }}"
-
-    - name: Download DEB Packages
-      ansible.builtin.uri:
-        url: "{{ ARTIFACT_DOWNLOADS_BASE_URL }}/{{ item }}-{{ PKG_URL_SUFFIX }}"
-        dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}/{{ PKG_URL_SUFFIX }}"
-        method: GET
-        status_code: 200
-      loop: "{{ package_prefixes }}"
+- name: Download DEB Packages (Linux Only)
+  include_tasks: download_deb_packages.yml
+  when: "'linux' in ansible_play_hosts"
