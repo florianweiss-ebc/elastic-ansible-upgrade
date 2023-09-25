@@ -1,5 +1,4 @@
-- debug:
-    var: ansible_play_hosts
+- debug: msg="Distro {{ ansible_distribution  }}    OS {{ ansible_os_family }}\n"
 
 # - name: Download Packages
 #   include_tasks: download_packages.yml
