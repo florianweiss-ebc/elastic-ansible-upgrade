@@ -1,7 +1,7 @@
 - name: Download Packages
   vars:
-    os: "{{ item.os }}"
-    package_type: "{{ item.package_type }}"
+    os: "{{ os_item.os }}"
+    package_type: "{{ os_item.package_type }}"
     PKG_URL_SUFFIX: "{{ STACK_VERSION }}-{{ os }}-x86_64.{{ package_type }}"
     package_prefixes: "{{ COMMON_PACKAGE_PREFIXES }}"
   block:
