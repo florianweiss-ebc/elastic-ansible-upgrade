@@ -13,7 +13,7 @@
 
 - name: Set cluster version variable
   set_fact:
-    current_elasticsearch_version: "{{ elasticsearch_result | json_query('version.number') }}"
+    current_elasticsearch_version: "{{ elasticsearch_result.version.number }}"
 
 - name: Check available versions
   yum:
