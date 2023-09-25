@@ -1,15 +1,15 @@
 - debug: msg="Distro {{ ansible_distribution  }}    OS {{ ansible_os_family }}\n"
 
-# - name: Download Packages
-#   include_tasks: download_packages.yml
-#   with_items:
-#     - { os: "linux", package_type: "tar.gz" }
-#     - { os: "windows", package_type: "zip" }
+- name: Download Packages
+  include_tasks: download_packages.yml
+  with_items:
+    - { os: "linux", package_type: "tar.gz" }
+    - { os: "windows", package_type: "zip" }
 
-# - name: Download RPM Packages (Linux Only)
-#   include_tasks: download_rpm_packages.yml
-#   when: "'linux' in ansible_play_hosts"
+- name: Download RPM Packages (Linux Only)
+  include_tasks: download_rpm_packages.yml
+  when: "'{{ linux_distribution }}' in ansible_distribution"
 
-# - name: Download DEB Packages (Linux Only)
-#   include_tasks: download_deb_packages.yml
-#   when: "'linux' in ansible_play_hosts"
+- name: Download DEB Packages (Linux Only)
+  include_tasks: download_deb_packages.yml
+  when: "'{{ linux_distribution }}' in ansible_distribution"
