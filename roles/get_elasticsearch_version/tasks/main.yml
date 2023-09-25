@@ -1,8 +1,26 @@
 - name: Get cluster version
-  shell: curl -ks https://localhost:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
-  register: current_elasticsearch_version
+  uri:
+    url: https://{{ inventory_hostname }}:9200
+    method: GET
+    return_content: yes
+    body_format: json
+    user: "{{ elastic_user }}"
+    password: "{{ elastic_password }}"
+    force_basic_auth: yes
+  register: elasticsearch_result
+  retries: 3
+  delay: 10
+
+- name: Set cluster version variable
+  set_fact:
+    current_elasticsearch_version: "{{ elasticsearch_result | json_query('version.number') }}"
 
 - name: Check available versions
-  shell: yum list available elasticsearch.x86_64 -q
-  register: available_elasticsearch_packages
-  ignore_errors: true
+  yum:
+    name: elasticsearch.x86_64
+    state: latest
+  check_mode: true
+  register: yum_latest_versions
+
+- debug:
+    var: yum_latest_versions
