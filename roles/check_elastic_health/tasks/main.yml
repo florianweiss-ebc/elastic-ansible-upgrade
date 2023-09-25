@@ -6,7 +6,7 @@
     password: "{{ elastic_password }}"
     force_basic_auth: true
     return_content: true
-    ca_path: /etc/elasticsearch/certs/http_ca.crt
+    #ca_path: /etc/elasticsearch/certs/http_ca.crt
   register: response
   until: "'green' in response.content"
   retries: 10 # 10 * 5 seconds
