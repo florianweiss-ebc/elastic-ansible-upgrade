@@ -4,4 +4,4 @@
   serial: 1
   roles:
     - role: get_elasticsearch_version
-    #- role: upgrade_elastic_nodes
+    - role: upgrade_elastic_nodes

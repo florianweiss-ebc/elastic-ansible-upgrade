@@ -1,4 +1,4 @@
-- name: Update all packages (please be patient)
+- name: update all packages (please be patient)
   yum:
     name: '*'
     state: latest

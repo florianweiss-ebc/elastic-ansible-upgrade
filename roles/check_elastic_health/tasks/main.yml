@@ -1,6 +1,6 @@
-- name: Check if cluster status is green {{ inventory_hostname }}
+- name: check if cluster status is green {{ inventory_hostname }}
   uri:
-    url: https://localhost:9200/_cat/health
+    url: https://{{ inventory_hostname }}:9200/_cat/health
     method: GET
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"

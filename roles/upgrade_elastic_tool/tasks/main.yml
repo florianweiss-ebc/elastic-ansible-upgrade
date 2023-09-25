@@ -1,11 +1,12 @@
-# ToDo: refactor versionlocks
 - name: stop {{ elastic_component }} on node
   systemd:
     name: "{{ elastic_component }}"
     state: stopped
 
 - name: remove yum versionlock
-  shell: yum versionlock delete {{ elastic_component }}
+  community.general.yum_versionlock:
+    state: absent
+    name: "{{ elastic_component }}"
 
 - name: upgrade {{ elastic_component }} to latest
   package:
@@ -17,12 +18,11 @@
     daemon_reload: true
 
 - name: add yum versionlock
-  shell: yum versionlock {{ elastic_component }}
+  community.general.yum_versionlock:
+    state: present
+    name: "{{ elastic_component }}"
 
 - name: start {{ elastic_component }} on node
   systemd:
     name: "{{ elastic_component }}"
     state: started
-
-- name: ensure {{ elastic_component }} is running
-  systemd: state=started name={{ elastic_component }}

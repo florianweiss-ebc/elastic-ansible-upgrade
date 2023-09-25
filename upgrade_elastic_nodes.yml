@@ -1,6 +1,0 @@
-- name: Upgrade elasticsearch nodes
-  hosts: elasticsearch
-  become: true
-  serial: 1
-  roles:
-    - role: upgrade_and_reboot_elasticsearch
