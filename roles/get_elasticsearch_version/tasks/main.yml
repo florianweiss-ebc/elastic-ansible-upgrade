@@ -11,6 +11,9 @@
   retries: 3
   delay: 10
 
+- debug:
+    var: elasticsearch_result
+
 - name: Set cluster version variable
   set_fact:
     current_elasticsearch_version: "{{ elasticsearch_result.version.number }}"
