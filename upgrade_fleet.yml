@@ -1,13 +1,40 @@
-# ToDo: fix variables
 - name: Upgrade fleet
   hosts: fleet
   become: true
-  #pre_tasks:
-  #  - shell: curl -s https://{{ elastic_node }}:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
-  #    register: current_elasticsearch_version
+  vars:
+    DOWNLOAD_BASE_DIR: "/opt/elastic-packages"
+    ARTIFACT_DOWNLOADS_BASE_URL: "https://artifacts.elastic.co/downloads"
+    COMMON_PACKAGE_PREFIXES:
+      - "apm-server/apm-server"
+      - "beats/auditbeat/auditbeat"
+      - "beats/elastic-agent/elastic-agent"
+      - "beats/filebeat/filebeat"
+      - "beats/heartbeat/heartbeat"
+      - "beats/metricbeat/metricbeat"
+      - "beats/osquerybeat/osquerybeat"
+      - "beats/packetbeat/packetbeat"
+      - "cloudbeat/cloudbeat"
+      - "endpoint-dev/endpoint-security"
+      - "fleet-server/fleet-server"
+    WIN_ONLY_PACKAGE_PREFIXES:
+      - "beats/winlogbeat/winlogbeat"
+    RPM_PACKAGES:
+      - "beats/elastic-agent/elastic-agent"
+    DEB_PACKAGES:
+      - "beats/elastic-agent/elastic-agent"
   roles:
+    - role: get_elasticsearch_version
+      vars:
+        elastic_hostname: "{{ elastic_node }}"
+    - role: download_fleet_packages
+      with_items:
+        - { os: "linux", package_type: "tar.gz" }
+        - { os: "windows", package_type: "zip" }
+      vars:
+        STACK_VERSION: "{{ current_elasticsearch_version }}"
     - role: upgrade_fleet_artifact_registry
-      #vars:
-      #  - elasticsearch_version: "{{ current_elasticsearch_version.stdout }}"
+      vars:
+        STACK_VERSION: "{{ current_elasticsearch_version }}"
+      when: "'linux' in ansible_play_hosts"
     - role: upgrade_and_reboot
     

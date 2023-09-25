@@ -4,4 +4,6 @@
   serial: 1
   roles:
     - role: get_elasticsearch_version
+      vars:
+        elastic_hostname: "{{ inventory_hostname }}"
     - role: upgrade_elastic_nodes
