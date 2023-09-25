@@ -14,11 +14,3 @@
 - name: set cluster version variable
   set_fact:
     current_elasticsearch_version: "{{ elasticsearch_result.json.version.number }}"
-
-- name: check available versions
-  yum:
-    name: elasticsearch.x86_64
-    state: latest
-  check_mode: true
-  register: yum_latest_versions
-  failed_when: yum_latest_versions.changed == false
