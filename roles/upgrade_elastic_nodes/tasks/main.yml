@@ -12,7 +12,7 @@
     force_basic_auth: true
     body: '{"persistent":{"cluster.routing.allocation.enable":"primaries"}}' # specify no shard allocation
     body_format: json
-    #ca_path: /etc/elasticsearch/certs/http_ca.crt
+    ca_path: /etc/elasticsearch/certs/http_ca.crt
 
 - name: stop non essential indexing to speed up shard recovery - no problem if return error (can be ignored)
   uri:
@@ -21,7 +21,7 @@
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
     force_basic_auth: true
-    #ca_path: /etc/elasticsearch/certs/http_ca.crt
+    ca_path: /etc/elasticsearch/certs/http_ca.crt
   ignore_errors: true
 
 - name: stop elasticsearch on node
@@ -73,7 +73,7 @@
     force_basic_auth: true
     body: '{"persistent":{"cluster.routing.allocation.enable": null}}'
     body_format: json
-    #ca_path: /etc/elasticsearch/certs/http_ca.crt
+    ca_path: /etc/elasticsearch/certs/http_ca.crt
 
 - name: wait until cluster status is green {{ inventory_hostname }}
   uri:
@@ -83,7 +83,7 @@
     password: "{{ elastic_password }}"
     force_basic_auth: true
     return_content: true
-    #ca_path: /etc/elasticsearch/certs/http_ca.crt
+    ca_path: /etc/elasticsearch/certs/http_ca.crt
   register: response
   until: "'green' in response.content"
   retries: 90 # 90 * 5 seconds
