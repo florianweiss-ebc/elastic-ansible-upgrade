@@ -1,3 +1,6 @@
+- debug:
+    var: ansible_play_hosts
+
 - name: Download Packages
   include_tasks: download_packages.yml
   with_items:

@@ -30,5 +30,5 @@
       vars:
         STACK_VERSION: "{{ current_elasticsearch_version }}"
       when: "'linux' in ansible_play_hosts"
-    - role: upgrade_and_reboot
+    #- role: upgrade_and_reboot
     
