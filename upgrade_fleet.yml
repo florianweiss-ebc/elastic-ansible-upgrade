@@ -30,5 +30,5 @@
     - role: upgrade_fleet_artifact_registry
       vars:
         STACK_VERSION: "{{ current_elasticsearch_version }}"
-    #- role: upgrade_and_reboot
+    - role: upgrade_and_reboot
     
