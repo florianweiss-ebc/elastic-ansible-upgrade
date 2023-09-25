@@ -6,10 +6,20 @@
     - { os: "linux", package_type: "tar.gz" }
     - { os: "windows", package_type: "zip" }
 
-- name: Download RPM Packages (Linux Only)
-  include_tasks: download_rpm_packages.yml
-  when: "'{{ linux_distribution }}' in ansible_distribution"
+- name: Download Windows Packages
+  include_tasks: download_os_packages.yml
+  vars:
+    PKG_URL_SUFFIX: "{{ STACK_VERSION }}-x86_64.zip"
+    package_prefixes: "{{ WIN_ONLY_PACKAGE_PREFIXES }}"
 
-- name: Download DEB Packages (Linux Only)
-  include_tasks: download_deb_packages.yml
-  when: "'{{ linux_distribution }}' in ansible_distribution"
+- name: Download RPM Packages
+  include_tasks: download_os_packages.yml
+  vars:
+    PKG_URL_SUFFIX: "{{ STACK_VERSION }}-x86_64.rpm"
+    package_prefixes: "{{ RPM_PACKAGES }}"
+
+- name: Download DEB Packages
+  include_tasks: download_os_packages.yml
+  vars:
+    PKG_URL_SUFFIX: "{{ STACK_VERSION }}-amd64.deb"
+    package_prefixes: "{{ DEB_PACKAGES }}"

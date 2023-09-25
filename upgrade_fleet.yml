@@ -28,8 +28,6 @@
         elastic_hostname: "{{ elastic_node }}"
     - role: upgrade_fleet_artifact_registry
       vars:
-        linux_distribution: RedHat
         STACK_VERSION: "{{ current_elasticsearch_version }}"
-      #when: "'linux' in ansible_play_hosts"
     #- role: upgrade_and_reboot
     

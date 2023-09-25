@@ -1,7 +1,4 @@
-- name: Download DEB Packages
-  vars:
-    PKG_URL_SUFFIX: "{{ STACK_VERSION }}-amd64.deb"
-    package_prefixes: "{{ DEB_PACKAGES }}"
+- name: Download OS specific Packages
   block:
     - name: Create Download Directory
       file:
@@ -9,7 +6,7 @@
         state: directory
       loop: "{{ package_prefixes }}"
 
-    - name: Download DEB Packages
+    - name: Download OS specific Packages
       uri:
         url: "{{ ARTIFACT_DOWNLOADS_BASE_URL }}/{{ item }}-{{ PKG_URL_SUFFIX }}"
         dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}/{{ PKG_URL_SUFFIX }}"
