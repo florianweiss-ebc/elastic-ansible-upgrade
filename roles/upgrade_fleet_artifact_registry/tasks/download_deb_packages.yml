@@ -14,5 +14,7 @@
         url: "{{ ARTIFACT_DOWNLOADS_BASE_URL }}/{{ item }}-{{ PKG_URL_SUFFIX }}"
         dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}/{{ PKG_URL_SUFFIX }}"
         method: GET
-        status_code: 200
+        status_code:
+          - 200
+          - 304
       loop: "{{ package_prefixes }}"
