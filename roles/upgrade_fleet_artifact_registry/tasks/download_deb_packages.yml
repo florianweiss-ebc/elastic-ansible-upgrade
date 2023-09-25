@@ -17,4 +17,5 @@
         status_code:
           - 200
           - 304
+          - 404
       loop: "{{ package_prefixes }}"
