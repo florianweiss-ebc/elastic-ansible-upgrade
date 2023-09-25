@@ -9,7 +9,7 @@
       ansible.builtin.file:
         path: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}"
         state: directory
-      loop: "{{ package_prefixes | map('dirname') | unique }}"
+      loop: "{{ package_prefixes }}"
       when: os == 'linux'
 
     - name: Download {{ package_type }} Packages
