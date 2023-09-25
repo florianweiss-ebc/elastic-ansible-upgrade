@@ -3,7 +3,6 @@
     url: https://{{ inventory_hostname }}:9200
     method: GET
     return_content: true
-    body_format: json
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
     force_basic_auth: true
