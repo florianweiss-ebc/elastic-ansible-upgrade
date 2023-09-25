@@ -13,15 +13,16 @@
       - "beats/metricbeat/metricbeat"
       - "beats/osquerybeat/osquerybeat"
       - "beats/packetbeat/packetbeat"
-      - "cloudbeat/cloudbeat"
       - "endpoint-dev/endpoint-security"
       - "fleet-server/fleet-server"
     WIN_ONLY_PACKAGE_PREFIXES:
       - "beats/winlogbeat/winlogbeat"
     RPM_PACKAGES:
       - "beats/elastic-agent/elastic-agent"
+      - "cloudbeat/cloudbeat"
     DEB_PACKAGES:
       - "beats/elastic-agent/elastic-agent"
+      - "cloudbeat/cloudbeat"
   roles:
     - role: get_elasticsearch_version
       vars:

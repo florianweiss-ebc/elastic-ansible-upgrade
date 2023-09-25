@@ -5,10 +5,6 @@
     PKG_URL_SUFFIX: "{{ STACK_VERSION }}-{{ os }}-x86_64.{{ package_type }}"
     package_prefixes: "{{ COMMON_PACKAGE_PREFIXES }}"
   block:
-    - debug:
-        msg: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}"
-      loop: "{{ package_prefixes }}"
-
     - name: Create Download Directory
       ansible.builtin.file:
         path: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}"
