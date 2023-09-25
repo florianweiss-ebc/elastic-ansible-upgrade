@@ -4,13 +4,13 @@
     package_prefixes: "{{ DEB_PACKAGES }}"
   block:
     - name: Create Download Directory
-      ansible.builtin.file:
+      file:
         path: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}"
         state: directory
-      loop: "{{ package_prefixes | map('dirname') | unique }}"
+      loop: "{{ package_prefixes }}"
 
     - name: Download DEB Packages
-      ansible.builtin.uri:
+      uri:
         url: "{{ ARTIFACT_DOWNLOADS_BASE_URL }}/{{ item }}-{{ PKG_URL_SUFFIX }}"
         dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}/{{ PKG_URL_SUFFIX }}"
         method: GET
