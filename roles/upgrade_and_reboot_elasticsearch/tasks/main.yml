@@ -9,7 +9,7 @@
     method: PUT
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
-    force_basic_auth: yes
+    force_basic_auth: true
     body: '{"persistent":{"cluster.routing.allocation.enable":"primaries"}}' # specify no shard allocation
     body_format: json
     #ca_path: /etc/elasticsearch/certs/http_ca.crt
@@ -20,7 +20,7 @@
     method: POST
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
-    force_basic_auth: yes
+    force_basic_auth: true
     #ca_path: /etc/elasticsearch/certs/http_ca.crt
   ignore_errors: true
 
@@ -54,7 +54,7 @@
     method: PUT
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
-    force_basic_auth: yes
+    force_basic_auth: true
     body: '{"persistent":{"cluster.routing.allocation.enable": null}}'
     body_format: json
     #ca_path: /etc/elasticsearch/certs/http_ca.crt
@@ -65,8 +65,8 @@
     method: GET
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
-    force_basic_auth: yes
-    return_content: yes
+    force_basic_auth: true
+    return_content: true
     #ca_path: /etc/elasticsearch/certs/http_ca.crt
   register: response
   until: "'green' in response.content"

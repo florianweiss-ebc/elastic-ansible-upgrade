@@ -2,11 +2,12 @@
   uri:
     url: https://{{ inventory_hostname }}:9200
     method: GET
-    return_content: yes
+    return_content: true
     body_format: json
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
-    force_basic_auth: yes
+    force_basic_auth: true
+    validate_certs: false
   register: elasticsearch_result
   retries: 3
   delay: 10

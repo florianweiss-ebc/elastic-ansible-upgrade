@@ -14,7 +14,7 @@
 
 - name: systemctl daemon-reload
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: add yum versionlock
   shell: yum versionlock {{ elastic_component }}
