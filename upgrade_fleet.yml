@@ -13,11 +13,12 @@
       - "beats/metricbeat/metricbeat"
       - "beats/osquerybeat/osquerybeat"
       - "beats/packetbeat/packetbeat"
-      - "cloudbeat/cloudbeat"
       - "endpoint-dev/endpoint-security"
       - "fleet-server/fleet-server"
     WIN_ONLY_PACKAGE_PREFIXES:
       - "beats/winlogbeat/winlogbeat"
+    TAR_GZ_PACKAGES:
+      - "cloudbeat/cloudbeat"
     RPM_PACKAGES:
       - "beats/elastic-agent/elastic-agent"
     DEB_PACKAGES:

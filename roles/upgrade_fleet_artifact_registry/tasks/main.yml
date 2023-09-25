@@ -6,6 +6,12 @@
     - { os: "linux", package_type: "tar.gz" }
     - { os: "windows", package_type: "zip" }
 
+- name: Download tar.gz Packages
+  include_tasks: download_os_packages.yml
+  vars:
+    PKG_URL_SUFFIX: "{{ STACK_VERSION }}-linux-x86_64.tar.gz"
+    package_prefixes: "{{ TAR_GZ_PACKAGES }}"
+
 - name: Download Windows Packages
   include_tasks: download_os_packages.yml
   vars:
