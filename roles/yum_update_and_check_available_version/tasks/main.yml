@@ -14,4 +14,4 @@
     state: latest
   check_mode: true
   register: yum_latest_versions
-  failed_when: yum_latest_versions.changed == false and yum_updates.results|flatten|select('regex', '^kernel$') is none
+  failed_when: yum_latest_versions.changed == false and yum_updates.results|flatten|select('regex', 'kernel') is none
