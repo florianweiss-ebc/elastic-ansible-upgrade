@@ -6,7 +6,8 @@
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
     force_basic_auth: true
-    #ca_path: /etc/elasticsearch/certs/http_ca.crt
+    validate_certs: false
+    ca_path: /etc/elasticsearch/certs/http_ca.crt
   register: elasticsearch_result
   retries: 3
   delay: 10
