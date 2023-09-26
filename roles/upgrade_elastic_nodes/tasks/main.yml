@@ -44,7 +44,7 @@
 - name: reboot host
   reboot:
     reboot_timeout: 300
-  when: yum_updates.results.updated|flatten|select('regex', '^kernel$') is any
+  when: yum_updates.results|flatten|select('regex', '^kernel$') is any
 
 - name: systemctl daemon-reload
   systemd:
