@@ -18,7 +18,7 @@
 - name: reboot host
   reboot:
     reboot_timeout: 300
-  when: reboot_required.rc == 0
+  when: reboot_required.rc == 1
 
 - name: systemctl daemon-reload
   systemd:
