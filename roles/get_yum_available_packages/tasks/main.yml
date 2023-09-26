@@ -5,6 +5,9 @@
     exclude: "{{ package_name }}"
   register: yum_updates
 
+- debug:
+    var: yum_updates
+
 - name: check available versions
   yum:
     name: "{{ package_name }}"
