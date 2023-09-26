@@ -8,6 +8,17 @@
 - debug:
     var: yum_updates
 
+- name: Check if reboot_required
+  shell:
+    cmd: "needs-restarting -r"
+  changed_when: false
+  failed_when: reboot_required.rc != 0 and reboot_required.rc != 1
+  check_mode: false
+  register: reboot_required
+
+- debug:
+    var: reboot_required
+
 - name: check available versions
   yum:
     name: "{{ package_name }}"
