@@ -4,7 +4,13 @@
     state: latest
   register: yum_updates
 
+- name: Check if reboot_required
+  shell:
+    cmd: "needs-restarting -r"
+  failed_when: reboot_required.rc != 0 and reboot_required.rc != 1
+  register: reboot_required
+
 - name: reboot host
   reboot:
     reboot_timeout: 300
-  when: yum_updates.results|flatten|select('regex', 'kernel') is any
+  when: reboot_required.rc == 0
