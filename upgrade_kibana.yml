@@ -3,7 +3,7 @@
   serial: 1
   become: true
   roles:
-    - role: get_yum_available_packages
+    - role: yum_update_and_check_available_version
       vars:
         package_name: kibana.x86_64
     - role: upgrade_elastic_tool
