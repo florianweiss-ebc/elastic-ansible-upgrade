@@ -6,7 +6,7 @@
     - role: get_elasticsearch_version
       vars:
         elastic_hostname: "{{ inventory_hostname }}"
-    - role: yum_update_and_check_available_version
+    - role: upgrade_and_check_available_version
       vars:
         package_name: elasticsearch.x86_64
     - role: upgrade_elastic_nodes
