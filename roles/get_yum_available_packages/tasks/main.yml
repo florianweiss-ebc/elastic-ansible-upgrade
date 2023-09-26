@@ -1,7 +1,14 @@
+- name: update all packages (please be patient)
+  yum:
+    name: '*'
+    state: latest
+    exclude: "{{ package_name }}"
+  register: yum_updates
+
 - name: check available versions
   yum:
     name: "{{ package_name }}"
     state: latest
   check_mode: true
   register: yum_latest_versions
-  failed_when: yum_latest_versions.changed == false
+  failed_when: yum_latest_versions.changed == false and yum_updates.changes.updated|flatten|select('regex', '^kernel$') is none

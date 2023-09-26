@@ -2,7 +2,9 @@
   yum:
     name: '*'
     state: latest
+  register: yum_updates
 
 - name: reboot host
   reboot:
     reboot_timeout: 300
+  when: yum_updates.changes.updated|flatten|select('regex', '^kernel$') is any

@@ -33,15 +33,18 @@
   community.general.yum_versionlock:
     state: absent
     name: elasticsearch
+  when: yum_latest_versions.changed == true
 
 - name: upgrade elasticsearch to latest
   package:
     name: elasticsearch
     state: latest
+  when: yum_latest_versions.changed == true
 
 - name: reboot host
   reboot:
     reboot_timeout: 300
+  when: yum_updates.changes.updated|flatten|select('regex', '^kernel$') is any
 
 - name: systemctl daemon-reload
   systemd:
