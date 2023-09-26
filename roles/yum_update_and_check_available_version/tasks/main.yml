@@ -17,4 +17,3 @@
     state: latest
   check_mode: true
   register: yum_latest_versions
-  failed_when: yum_latest_versions.changed == false and reboot_required.rc == 0
