@@ -1,0 +1,5 @@
+- name: update all packages (please be patient)
+  yum:
+    name: '*'
+    state: latest
+  register: yum_updates

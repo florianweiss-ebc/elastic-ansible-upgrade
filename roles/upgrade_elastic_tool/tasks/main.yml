@@ -15,10 +15,14 @@
     state: latest
   when: yum_latest_versions.changed == true
 
-- name: reboot host
-  reboot:
-    reboot_timeout: 300
-  when: reboot_required.rc == 1
+# - name: reboot host
+#   reboot:
+#     reboot_timeout: 300
+#   when: reboot_required.rc == 1
+
+- name: reboot host if needed
+  include_role:
+    name: reboot_if_needed
 
 - name: systemctl daemon-reload
   systemd:

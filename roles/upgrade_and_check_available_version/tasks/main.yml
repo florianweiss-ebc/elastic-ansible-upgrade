@@ -5,11 +5,11 @@
     exclude: "{{ package_name }}"
   register: yum_updates
 
-- name: check if reboot is required
-  shell:
-    cmd: "needs-restarting -r"
-  failed_when: reboot_required.rc != 0 and reboot_required.rc != 1
-  register: reboot_required
+# - name: check if reboot is required
+#   shell:
+#     cmd: "needs-restarting -r"
+#   failed_when: reboot_required.rc != 0 and reboot_required.rc != 1
+#   register: reboot_required
 
 - name: check available versions
   yum:
