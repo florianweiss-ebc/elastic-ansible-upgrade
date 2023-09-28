@@ -4,24 +4,36 @@
     state: stopped
 
 - name: remove yum versionlock
-  shell: yum versionlock delete {{ elastic_component }}
+  community.general.yum_versionlock:
+    state: absent
+    name: "{{ elastic_component }}"
+  when: yum_latest_versions.changed == true
 
 - name: upgrade {{ elastic_component }} to latest
   package:
     name: "{{ elastic_component }}"
     state: latest
+  when: yum_latest_versions.changed == true
+
+# - name: reboot host
+#   reboot:
+#     reboot_timeout: 300
+#   when: reboot_required.rc == 1
+
+- name: reboot host if needed
+  include_role:
+    name: reboot_if_needed
 
 - name: systemctl daemon-reload
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: add yum versionlock
-  shell: yum versionlock {{ elastic_component }}
+  community.general.yum_versionlock:
+    state: present
+    name: "{{ elastic_component }}"
 
 - name: start {{ elastic_component }} on node
   systemd:
     name: "{{ elastic_component }}"
     state: started
-
-- name: ensure {{ elastic_component }} is running
-  systemd: state=started name={{ elastic_component }}

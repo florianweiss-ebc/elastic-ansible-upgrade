@@ -1,8 +1,0 @@
-- name: Update all packages (please be patient)
-  yum:
-    name: '*'
-    state: latest
-
-- name: reboot host
-  reboot:
-    reboot_timeout: 300

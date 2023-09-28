@@ -3,7 +3,9 @@
   serial: 1
   become: true
   roles:
+    - role: upgrade_and_check_available_version
+      vars:
+        package_name: logstash.x86_64
     - role: upgrade_elastic_tool
       vars:
         elastic_component: logstash
-    - role: upgrade_and_reboot

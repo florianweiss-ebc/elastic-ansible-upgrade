@@ -1,0 +1,23 @@
+- name: Download Packages
+  vars:
+    os: "{{ os_item.os }}"
+    package_type: "{{ os_item.package_type }}"
+    PKG_URL_SUFFIX: "{{ STACK_VERSION }}-{{ os }}-x86_64.{{ package_type }}"
+    package_prefixes: "{{ COMMON_PACKAGE_PREFIXES }}"
+  block:
+    - name: Create Download Directory
+      file:
+        path: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}"
+        state: directory
+      loop: "{{ package_prefixes }}"
+      when: os == 'linux'
+
+    - name: Download {{ package_type }} Packages
+      uri:
+        url: "{{ ARTIFACT_DOWNLOADS_BASE_URL }}/{{ item }}-{{ PKG_URL_SUFFIX }}"
+        dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}/{{ PKG_URL_SUFFIX }}"
+        method: GET
+        status_code:
+          - 200
+          - 304
+      loop: "{{ package_prefixes }}"

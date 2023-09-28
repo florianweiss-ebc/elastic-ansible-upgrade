@@ -1,13 +1,13 @@
-- name: Check if cluster status is green {{ inventory_hostname }}
+- name: check if cluster status is green {{ inventory_hostname }}
   uri:
-    url: https://localhost:9200/_cat/health
+    url: https://{{ inventory_hostname }}:9200/_cat/health
     method: GET
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
-    force_basic_auth: yes
-    return_content: yes
+    force_basic_auth: true
+    return_content: true
     #ca_path: /etc/elasticsearch/certs/http_ca.crt
   register: response
   until: "'green' in response.content"
-  retries: 10 # 10 * 5 seconds
-  delay: 5 # Every 5 seconds
+  retries: 5
+  delay: 30

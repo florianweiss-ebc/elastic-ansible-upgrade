@@ -2,15 +2,34 @@
   hosts: fleet
   become: true
   vars:
-    elastic_user: elastic
-    elastic_password: secretpassword
-    elastic_node: 10.0.0.10
-  #pre_tasks:
-  #  - shell: curl -s https://{{ elastic_node }}:9200 -u "{{ elastic_user }}:{{ elastic_password }}" | jq -r '.version.number'
-  #    register: current_elasticsearch_version
+    DOWNLOAD_BASE_DIR: "/opt/elastic-packages"
+    ARTIFACT_DOWNLOADS_BASE_URL: "https://artifacts.elastic.co/downloads"
+    COMMON_PACKAGE_PREFIXES:
+      - "apm-server/apm-server"
+      - "beats/auditbeat/auditbeat"
+      - "beats/elastic-agent/elastic-agent"
+      - "beats/filebeat/filebeat"
+      - "beats/heartbeat/heartbeat"
+      - "beats/metricbeat/metricbeat"
+      - "beats/osquerybeat/osquerybeat"
+      - "beats/packetbeat/packetbeat"
+      - "endpoint-dev/endpoint-security"
+      - "fleet-server/fleet-server"
+    WIN_ONLY_PACKAGE_PREFIXES:
+      - "beats/winlogbeat/winlogbeat"
+    TAR_GZ_PACKAGES:
+      - "cloudbeat/cloudbeat"
+    RPM_PACKAGES:
+      - "beats/elastic-agent/elastic-agent"
+    DEB_PACKAGES:
+      - "beats/elastic-agent/elastic-agent"
   roles:
+    - role: get_elasticsearch_version
+      vars:
+        elastic_hostname: "{{ elastic_node }}"
     - role: upgrade_fleet_artifact_registry
-      #vars:
-      #  - elasticsearch_version: "{{ current_elasticsearch_version.stdout }}"
-    - role: upgrade_and_reboot
+      vars:
+        STACK_VERSION: "{{ current_elasticsearch_version }}"
+    - role: upgrade_all_packages
+    - role: reboot_if_needed
     

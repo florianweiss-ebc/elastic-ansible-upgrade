@@ -1,0 +1,12 @@
+- name: Upgrade elasticsearch
+  hosts: elasticsearch
+  become: true
+  serial: 1
+  roles:
+    - role: get_elasticsearch_version
+      vars:
+        elastic_hostname: "{{ inventory_hostname }}"
+    - role: upgrade_and_check_available_version
+      vars:
+        package_name: elasticsearch.x86_64
+    - role: upgrade_elastic_nodes

@@ -1,24 +1,21 @@
-- meta: end_play
-  when: "'Available packages' not in available_elasticsearch_packages.stdout"
-
 - name: disable shard allocation
   uri:
-    url: https://localhost:9200/_cluster/settings
+    url: https://{{ inventory_hostname }}:9200/_cluster/settings
     method: PUT
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
-    force_basic_auth: yes
+    force_basic_auth: true
     body: '{"persistent":{"cluster.routing.allocation.enable":"primaries"}}' # specify no shard allocation
     body_format: json
     #ca_path: /etc/elasticsearch/certs/http_ca.crt
 
 - name: stop non essential indexing to speed up shard recovery - no problem if return error (can be ignored)
   uri:
-    url: https://localhost:9200/_flush
+    url: https://{{ inventory_hostname }}:9200/_flush
     method: POST
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
-    force_basic_auth: yes
+    force_basic_auth: true
     #ca_path: /etc/elasticsearch/certs/http_ca.crt
   ignore_errors: true
 
@@ -28,56 +25,68 @@
     state: stopped
 
 - name: remove yum versionlock
-  shell: yum versionlock delete elasticsearch
+  community.general.yum_versionlock:
+    state: absent
+    name: elasticsearch
+  when: yum_latest_versions.changed == true
 
 - name: upgrade elasticsearch to latest
   package:
     name: elasticsearch
     state: latest
+  when: yum_latest_versions.changed == true
+
+# - name: reboot host
+#   reboot:
+#     reboot_timeout: 300
+#   when: reboot_required.rc == 1
+
+- name: reboot host if needed
+  include_role:
+    name: reboot_if_needed
 
 - name: systemctl daemon-reload
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: add yum versionlock
-  shell: yum versionlock elasticsearch
+  community.general.yum_versionlock:
+    state: present
+    name: elasticsearch
 
 - name: start elasticsearch on node
   systemd:
     name: elasticsearch
     state: started
 
-- name: ensure elasticsearch is running
-  systemd: state=started name=elasticsearch
-
-- name: Make sure Elasticsearch is running before proceeding.
+- name: make sure Elasticsearch is running before proceeding.
   wait_for:
-    host: "localhost"
+    host: "{{ inventory_hostname }}"
     port: "9200"
     delay: 3
     timeout: 300
 
 - name: enable shard allocation
   uri:
-    url: https://localhost:9200/_cluster/settings
+    url: https://{{ inventory_hostname }}:9200/_cluster/settings
     method: PUT
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
-    force_basic_auth: yes
+    force_basic_auth: true
     body: '{"persistent":{"cluster.routing.allocation.enable": null}}'
     body_format: json
     #ca_path: /etc/elasticsearch/certs/http_ca.crt
 
-- name: Wait until cluster status is green {{ inventory_hostname }}
+- name: wait until cluster status is green {{ inventory_hostname }}
   uri:
-    url: https://localhost:9200/_cat/health
+    url: https://{{ inventory_hostname }}:9200/_cat/health
     method: GET
     user: "{{ elastic_user }}"
     password: "{{ elastic_password }}"
-    force_basic_auth: yes
-    return_content: yes
+    force_basic_auth: true
+    return_content: true
     #ca_path: /etc/elasticsearch/certs/http_ca.crt
   register: response
   until: "'green' in response.content"
-  retries: 90 # 90 * 5 seconds
-  delay: 5 # Every 5 seconds
+  retries: 60
+  delay: 30
