@@ -1,3 +1,12 @@
+[elasticsearch-non-master]
+elastic-01     ansible_host=10.0.0.10     ansible_ssh_private_key_file=/path/to/key.pem
+
+[elasticsearch-cold-master]
+elastic-02     ansible_host=10.0.0.20     ansible_ssh_private_key_file=/path/to/key.pem
+
+[elasticsearch-hot-master]
+elastic-03     ansible_host=10.0.0.30     ansible_ssh_private_key_file=/path/to/key.pem
+
 [elasticsearch]
 elastic-01     ansible_host=10.0.0.10     ansible_ssh_private_key_file=/path/to/key.pem
 elastic-02     ansible_host=10.0.0.20     ansible_ssh_private_key_file=/path/to/key.pem
