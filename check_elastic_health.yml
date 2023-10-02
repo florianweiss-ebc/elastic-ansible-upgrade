@@ -1,4 +1,5 @@
-- hosts: elasticsearch
+- name: Check elastic health
+  hosts: elasticsearch
   serial: 1
   become: true
   roles:
