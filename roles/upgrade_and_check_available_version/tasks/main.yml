@@ -17,3 +17,7 @@
     state: latest
   check_mode: true
   register: yum_latest_versions
+
+- name: debug yum_latest_versions
+  debug:
+    var: yum_latest_versions
