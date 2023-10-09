@@ -27,7 +27,3 @@
   community.general.yum_versionlock:
     state: present
     name: "{{ package_name }}"
-
-- name: debug yum_latest_versions
-  debug:
-    var: yum_latest_versions
