@@ -1,5 +1,6 @@
 - name: Upgrade elasticsearch
   hosts: elasticsearch
+  order: inventory
   become: true
   serial: 1
   roles:
