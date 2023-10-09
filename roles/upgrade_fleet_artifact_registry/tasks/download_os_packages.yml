@@ -9,7 +9,7 @@
     - name: Download OS specific Packages
       uri:
         url: "{{ ARTIFACT_DOWNLOADS_BASE_URL }}/{{ item }}-{{ PKG_URL_SUFFIX }}"
-        dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}/{{ PKG_URL_SUFFIX }}"
+        dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}-{{ PKG_URL_SUFFIX }}"
         method: GET
         status_code:
           - 200
