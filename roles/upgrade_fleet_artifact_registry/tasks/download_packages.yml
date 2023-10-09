@@ -7,7 +7,7 @@
   block:
     - name: Create Download Directory
       file:
-        path: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}"
+        path: "{{ DOWNLOAD_BASE_DIR }}"
         state: directory
       loop: "{{ package_prefixes }}"
       when: os == 'linux'
@@ -16,6 +16,26 @@
       uri:
         url: "{{ ARTIFACT_DOWNLOADS_BASE_URL }}/{{ item }}-{{ PKG_URL_SUFFIX }}"
         dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}-{{ PKG_URL_SUFFIX }}"
+        method: GET
+        status_code:
+          - 200
+          - 304
+      loop: "{{ package_prefixes }}"
+
+    - name: Download {{ package_type }} asc
+      uri:
+        url: "{{ ARTIFACT_DOWNLOADS_BASE_URL }}/{{ item }}-{{ PKG_URL_SUFFIX }}.asc"
+        dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}-{{ PKG_URL_SUFFIX }}.asc"
+        method: GET
+        status_code:
+          - 200
+          - 304
+      loop: "{{ package_prefixes }}"
+
+    - name: Download {{ package_type }} sha512
+      uri:
+        url: "{{ ARTIFACT_DOWNLOADS_BASE_URL }}/{{ item }}-{{ PKG_URL_SUFFIX }}.sha512"
+        dest: "{{ DOWNLOAD_BASE_DIR }}/{{ item }}-{{ PKG_URL_SUFFIX }}.sha512"
         method: GET
         status_code:
           - 200
