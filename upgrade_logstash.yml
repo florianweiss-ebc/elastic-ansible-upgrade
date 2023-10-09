@@ -5,7 +5,7 @@
   roles:
     - role: upgrade_and_check_available_version
       vars:
-        package_name: logstash.x86_64
+        package_name: logstash
     - role: upgrade_elastic_tool
       vars:
         elastic_component: logstash

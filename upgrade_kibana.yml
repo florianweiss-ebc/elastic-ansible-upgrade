@@ -5,7 +5,7 @@
   roles:
     - role: upgrade_and_check_available_version
       vars:
-        package_name: kibana.x86_64
+        package_name: kibana
     - role: upgrade_elastic_tool
       vars:
         elastic_component: kibana
