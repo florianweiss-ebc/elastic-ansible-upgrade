@@ -2,7 +2,7 @@
   yum:
     name: '*'
     state: latest
-    exclude: "{{ package_name }}"
+    exclude: "{{ package_name }}.x86_64"
   register: yum_updates
 
 # - name: check if reboot is required
@@ -11,9 +11,23 @@
 #   failed_when: reboot_required.rc != 0 and reboot_required.rc != 1
 #   register: reboot_required
 
+- name: remove yum versionlock
+  community.general.yum_versionlock:
+    state: absent
+    name: "{{ package_name }}"
+
 - name: check available versions
   yum:
-    name: "{{ package_name }}"
+    name: "{{ package_name }}.x86_64"
     state: latest
   check_mode: true
   register: yum_latest_versions
+
+- name: add yum versionlock
+  community.general.yum_versionlock:
+    state: present
+    name: "{{ package_name }}"
+
+- name: debug yum_latest_versions
+  debug:
+    var: yum_latest_versions

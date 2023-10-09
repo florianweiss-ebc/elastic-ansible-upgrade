@@ -9,5 +9,5 @@
         elastic_hostname: "{{ inventory_hostname }}"
     - role: upgrade_and_check_available_version
       vars:
-        package_name: elasticsearch.x86_64
+        package_name: elasticsearch
     - role: upgrade_elastic_nodes
