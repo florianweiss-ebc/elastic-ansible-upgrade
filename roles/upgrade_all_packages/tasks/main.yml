@@ -3,3 +3,8 @@
     name: '*'
     state: latest
   register: yum_updates
+
+- name: renew certificates if needed
+  systemd:
+    name: acmesh
+    state: started

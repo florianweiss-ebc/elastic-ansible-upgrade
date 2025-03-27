@@ -15,6 +15,11 @@
     state: latest
   when: yum_latest_versions.changed == true
 
+- name: renew certificates if needed
+  systemd:
+    name: acmesh
+    state: started
+
 # - name: reboot host
 #   reboot:
 #     reboot_timeout: 300
