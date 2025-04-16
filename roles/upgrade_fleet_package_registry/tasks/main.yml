@@ -1,0 +1,22 @@
+- name: stop {{ package_registry_service }} service
+  systemd:
+    name: "{{ package_registry_service }}"
+    state: stopped
+
+- name: remove the {{ package_registry_service }} container image
+  containers.podman.podman_image:
+    name: "{{ image_name }}"
+    tag: "{{ image_tag }}"
+    state: absent
+
+- name: pull the latest version of the {{ package_registry_service }} container image
+  containers.podman.podman_image:
+    name: "{{ image_name }}"
+    tag: "{{ image_tag }}"
+    state: present
+    pull: true
+
+- name: start {{ package_registry_service }} service
+  systemd:
+    name: "{{ package_registry_service }}"
+    state: started

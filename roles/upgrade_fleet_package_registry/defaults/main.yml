@@ -1,0 +1,3 @@
+image_name: docker.elastic.co/package-registry/distribution
+image_tag: production
+package_registry_service: container-package-registry
