@@ -1,0 +1,51 @@
+- name: Get anonymous bearer token for docker.elastic.co
+  ansible.builtin.uri:
+    url: "https://docker-auth.elastic.co/auth/token?service=token-service&scope=repository:{{ image_name }}:pull"
+    method: GET
+    return_content: true
+  register: token_response
+
+- name: Fetch logstash tags list
+  ansible.builtin.uri:
+    url: "https://docker.elastic.co/v2/{{ image_name }}/tags/list"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ token_response.json.token }}"
+    return_content: true
+  register: registry_output
+
+- name: Identify highest logstash version
+  set_fact:
+    latest_tag: "{{ registry_output.json.tags | select('match', '^[0-9.]+$') | community.general.version_sort | last }}"
+
+- name: Pull the latest logstash image
+  containers.podman.podman_image:
+    name: "{{ image_base }}"
+    tag: "{{ latest_tag }}"
+    state: present
+
+- name: Update only the version string in {{ service_name }} systemd file
+  ansible.builtin.replace:
+    path: "{{ unit_file_path }}"
+    regexp: '({{ image_base }}):[0-9.]+'
+    replace: '\1:{{ latest_tag }}'
+  register: file_update
+
+- name: Reload and restart {{ service_name }} service if updated
+  ansible.builtin.systemd:
+    name: "{{ service_name }}"
+    state: restarted
+    daemon_reload: yes
+  when: file_update.changed
+
+- name: Remove all older logstash images
+  containers.podman.podman_image:
+    name: "{{ image_base }}"
+    tag: "{{ item }}"
+    state: absent
+  # We look for all local tags and loop through them
+  loop: "{{ (query('containers.podman.podman_image_info', name=image_base)[0].Names | map('regex_replace', '^.*:', '') | list) | default([]) }}"
+  when: 
+    - item != latest_tag
+    - item != image_base  # Don't try to delete the base name without a tag
+  ignore_errors: true  # Prevents crash if an image is still locked by a container

@@ -1,0 +1,4 @@
+image_base: "docker.elastic.co/logstash/logstash"
+image_name: "logstash/logstash"
+service_name: "logstash-container"
+unit_file_path: "/etc/systemd/system/{{ service_name }}.service"

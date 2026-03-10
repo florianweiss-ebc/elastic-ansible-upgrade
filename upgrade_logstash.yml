@@ -3,9 +3,6 @@
   serial: 1
   become: true
   roles:
-    - role: upgrade_and_check_available_version
-      vars:
-        package_name: logstash
-    - role: upgrade_elastic_tool
-      vars:
-        elastic_component: logstash
+    - role: upgrade_logstash
+    - role: upgrade_all_packages
+    - role: reboot_if_needed
